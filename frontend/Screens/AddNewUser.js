@@ -1,6 +1,90 @@
-//
+// import React, { Component } from "react";
+// import {
+//   StyleSheet,
+//   Text,
+//   Image,
+//   TouchableOpacity,
+//   Vibration,
+//   View,
+//   TextInput
+// } from "react-native";
 
-// ..................................................................................
+// class AddNewUser extends Component {
+//   constructor() {
+//     super();
+//     this.state = {
+//       User_Firstname: "",
+//       User_Lastname: ""
+//     };
+//   }
+
+//   updateValue(text, field) {
+//     if (field == "User_Firstname") {
+//       this.setState({
+//         User_Firstname: text
+//       });
+//     } else if (field == "User_Lastname") {
+//       this.setState({
+//         User_Lastname: text
+//       });
+//     }
+//   }
+//   submit() {
+//     let collection = {};
+//     (collection.User_Firstname = this.state.User_Firstname),
+//       (collection.User_Lastname = this.state.User_Lastname);
+//     console.warn(collection);
+
+//     var url = "http://185.22.35.3:8000/";
+
+//     fetch(url, {
+//       method: "POST",
+//       body: JSON.stringify(collection),
+//       headers: new Headers({
+//         "Content-Type": "application/json"
+//       })
+//     })
+//       .then(res => res.json())
+//       .catch(error => console.error("Error:", error))
+//       .then(response => console.log("Success:", response));
+//   }
+//   render() {
+//     return (
+//       <View style={styles.container}>
+//         <TextInput
+//           placeholder="First Name"
+//           style={styles.input}
+//           onChangeText={text => this.updateValue(text, "User_Firstname")}
+//         />
+//         <TextInput
+//           placeholder="Last Name"
+//           style={styles.input}
+//           onChangeText={text => this.updateValue(text, "User_Lastname")}
+//         />
+//         <TouchableOpacity onPress={() => this.submit()} style={styles.btn}>
+//           <Text>Submit</Text>
+//         </TouchableOpacity>
+//       </View>
+//     );
+//   }
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     backgroundColor: "#F5FCFF",
+//     flex: 1,
+//     justifyContent: "center"
+//   },
+//   btn: {
+//     backgroundColor: "skyblue",
+//     height: 40,
+//     color: "#fff",
+//     justifyContent: "center",
+//     alignItems: "center"
+//   }
+// });
+// export default AddNewUser;
+
 import React, { useReducer, useCallback } from "react";
 import {
   ScrollView,
