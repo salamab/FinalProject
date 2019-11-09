@@ -43,32 +43,34 @@ router.get("/:id", (req, res, next) => {
  *
  */
 router.post("/", (req, res, next) => {
+  console.log("I am here");
   var errors = [];
   if (!req.body.User_Firstname) {
-    errors.push("No password specified");
+    errors.push("No first name specified");
   }
   if (!req.body.User_Lastname) {
-    errors.push("No email specified");
+    errors.push("No last name specified");
   }
   if (!req.body.User_Email) {
     errors.push("No email specified");
   }
   if (!req.body.User_Password) {
-    errors.push("No email specified");
+    errors.push("No password specified");
+  }
+  if (!req.body.Confirm_Password) {
+    errors.push("No confirm specified");
   }
   if (!req.body.User_Address) {
-    errors.push("No email specified");
+    errors.push("No address specified");
   }
   if (!req.body.User_Phone) {
-    errors.push("No email specified");
+    errors.push("No phone number specified");
   }
   if (!req.body.Role) {
-    errors.push("No email specified");
-  }
-  if (!req.body.Certification_ID) {
-    errors.push("No email specified");
+    errors.push("No role specified");
   }
   if (errors.length) {
+    console.log(errors);
     res.status(400).json({ error: errors.join(",") });
     return;
   }
@@ -77,23 +79,26 @@ router.post("/", (req, res, next) => {
     User_Lastname: req.body.User_Lastname,
     User_Email: req.body.User_Email,
     User_Password: req.body.User_Password,
+    Confirm_Password: req.body.Confirm_Password,
     User_Address: req.body.User_Address,
     User_Phone: req.body.User_Phone,
-    Role: req.body.Role,
-    Certification_ID: req.body.Certification_ID
+    Role: req.body.Role
   };
+  console.log(data);
+
   var sql =
-    "INSERT INTO user (User_Firstname, User_Lastname, User_Email, User_Password, User_Address, User_Phone, Role, Certification_ID) VALUES (?,?,?,?,?,?,?,?)";
+    "INSERT INTO user (User_Firstname, User_Lastname, User_Email, User_Password, Confirm_Password, User_Address, User_Phone, Role) VALUES (?,?,?,?,?,?,?,?)";
   var params = [
     data.User_Firstname,
     data.User_Lastname,
     data.User_Email,
     data.User_Password,
+    data.Confirm_Password,
     data.User_Address,
     data.User_Phone,
-    data.Role,
-    data.Certification_ID
+    data.Role
   ];
+  console.log(sql, params);
   db.run(sql, params, function(err, result) {
     if (err) {
       res.status(400).json({ error: err.message });

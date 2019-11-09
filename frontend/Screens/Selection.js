@@ -10,19 +10,19 @@ const Selection = props => {
         <View style={styles.button}>
           <MainButton
             onPress={() => {
-              props.navigation.navigate({ routeName: "flName" });
+              props.navigation.navigate("addnewuser", { role: "Student" });
             }}
           >
-            I am a student
+            I am here to learn
           </MainButton>
         </View>
         <View style={styles.button}>
           <MainButton
             onPress={() => {
-              props.navigation.navigate({ routeName: "flName" });
+              props.navigation.navigate("addnewuser", { role: "Teacher" });
             }}
           >
-            I am a teacher
+            I am here to teach
           </MainButton>
         </View>
       </View>

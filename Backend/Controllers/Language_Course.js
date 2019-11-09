@@ -41,6 +41,57 @@ router.get("/:id", (req, res, next) => {
   });
 });
 
+/** retreive one Language_Course by Language_Course_ID
+ *
+ */
+
+router.get("/coursebylanguage/:id", (req, res, next) => {
+  console.log("here");
+  var sql = `Select Language_Course.*, user.User_Firstname, user.User_Lastname from Language_Course join user where Languages_ID=${req.params.id} and user.User_ID=Language_Course.User_ID;`;
+
+  var params = [];
+  //console.log(sql);
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    const _newrows = [];
+    let rows_index = 0;
+    for (let index = 0; index < rows.length; index++) {
+      var stmt = `select Certification.* from Certification join User_Certification where User_Certification.User_ID = ${rows[index].User_ID} and Certification.Certification_ID= User_Certification.Certification_ID;`;
+      db.all(stmt, params, (err, rows2) => {
+        const r = rows[rows_index];
+
+        r.certifications = [...rows2];
+        console.log(r.User_ID, r.certifications);
+        _newrows.push(r);
+        rows_index++;
+        if (_newrows.length === rows.length) {
+          res.json({
+            message: "success",
+            data: _newrows
+          });
+        }
+      });
+    }
+
+    // //console.log(rows);
+    // const newrows = rows.map(r => {
+    //   var stmt = `select Certification.* from Certification join User_Certification where User_Certification.User_ID = ${r.User_ID} and Certification.Certification_ID= User_Certification.Certification_ID;`;
+
+    //   db.all(stmt, params, (err, rows2) => {
+    //     r.certifications = [...rows2];
+    //     console.log(r.User_ID, r.certifications);
+    //     return r;
+    //   });
+
+    //   return r;
+    // });
+    // console.log(newrows);
+  });
+});
+
 /**Create New Language_Course
  *
  */

@@ -1,242 +1,236 @@
-// import React, { Component } from "react";
-// import {
-//   StyleSheet,
-//   Text,
-//   Image,
-//   TouchableOpacity,
-//   Vibration,
-//   View,
-//   TextInput
-// } from "react-native";
-
-// class AddNewUser extends Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       User_Firstname: "",
-//       User_Lastname: ""
-//     };
-//   }
-
-//   updateValue(text, field) {
-//     if (field == "User_Firstname") {
-//       this.setState({
-//         User_Firstname: text
-//       });
-//     } else if (field == "User_Lastname") {
-//       this.setState({
-//         User_Lastname: text
-//       });
-//     }
-//   }
-//   submit() {
-//     let collection = {};
-//     (collection.User_Firstname = this.state.User_Firstname),
-//       (collection.User_Lastname = this.state.User_Lastname);
-//     console.warn(collection);
-
-//     var url = "http://185.22.35.3:8000/";
-
-//     fetch(url, {
-//       method: "POST",
-//       body: JSON.stringify(collection),
-//       headers: new Headers({
-//         "Content-Type": "application/json"
-//       })
-//     })
-//       .then(res => res.json())
-//       .catch(error => console.error("Error:", error))
-//       .then(response => console.log("Success:", response));
-//   }
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <TextInput
-//           placeholder="First Name"
-//           style={styles.input}
-//           onChangeText={text => this.updateValue(text, "User_Firstname")}
-//         />
-//         <TextInput
-//           placeholder="Last Name"
-//           style={styles.input}
-//           onChangeText={text => this.updateValue(text, "User_Lastname")}
-//         />
-//         <TouchableOpacity onPress={() => this.submit()} style={styles.btn}>
-//           <Text>Submit</Text>
-//         </TouchableOpacity>
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     backgroundColor: "#F5FCFF",
-//     flex: 1,
-//     justifyContent: "center"
-//   },
-//   btn: {
-//     backgroundColor: "skyblue",
-//     height: 40,
-//     color: "#fff",
-//     justifyContent: "center",
-//     alignItems: "center"
-//   }
-// });
-// export default AddNewUser;
-
-import React, { useReducer, useCallback } from "react";
+import React, { Component } from "react";
 import {
-  ScrollView,
-  View,
-  KeyboardAvoidingView,
   StyleSheet,
-  Button
+  Text,
+  Image,
+  TouchableOpacity,
+  Vibration,
+  View,
+  TextInput,
+  ScrollView
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { useDispatch } from "react-redux";
+import Input from "../components/Input";
+import MainButton from "../components/MainButton";
+import MultiSelect from "react-native-multiple-select";
 
-import Input from "../../components/UI/Input";
-import Card from "../../components/UI/Card";
-import Colors from "../../constants/Colors";
-import * as authActions from "../../store/actions/auth";
+// import Certifications from "./Certifications";
 
-const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
-
-const formReducer = (state, action) => {
-  if (action.type === FORM_INPUT_UPDATE) {
-    const updatedValues = {
-      ...state.inputValues,
-      [action.input]: action.value
-    };
-    const updatedValidities = {
-      ...state.inputValidities,
-      [action.input]: action.isValid
-    };
-    let updatedFormIsValid = true;
-    for (const key in updatedValidities) {
-      updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
-    }
-    return {
-      formIsValid: updatedFormIsValid,
-      inputValidities: updatedValidities,
-      inputValues: updatedValues
+class AddNewUser extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      User_Firstname: "",
+      User_Lastname: "",
+      User_Email: "",
+      User_Password: "",
+      Confirm_Password: "",
+      User_Address: "",
+      User_Phone: "",
+      Role: "",
+      Certification_ID: "",
+      selectedItems: [],
+      items: [],
+      user_id: 0
     };
   }
-  return state;
-};
 
-const AuthScreen = props => {
-  const dispatch = useDispatch();
+  updateValue(text, field) {
+    if (field == "User_Firstname") {
+      this.setState({ User_Firstname: text });
+    } else if (field == "User_Lastname") {
+      this.setState({ User_Lastname: text });
+    } else if (field == "User_Email") {
+      this.setState({ User_Email: text });
+    } else if (field == "User_Password") {
+      this.setState({ User_Password: text });
+    } else if (field == "Confirm_Password") {
+      this.setState({ Confirm_Password: text });
+    } else if (field == "User_Address") {
+      this.setState({ User_Address: text });
+    } else if (field == "User_Phone") {
+      this.setState({ User_Phone: text });
+    }
+  }
+  submit = async () => {
+    let collection = {};
+    collection.User_Firstname = this.state.User_Firstname;
+    collection.User_Lastname = this.state.User_Lastname;
+    collection.User_Email = this.state.User_Email;
+    collection.User_Password = this.state.User_Password;
+    collection.Confirm_Password = this.state.Confirm_Password;
+    collection.User_Address = this.state.User_Address;
+    collection.User_Phone = this.state.User_Phone;
+    collection.Role = this.props.navigation.getParam("role", "Teacher");
+    // collection.Certification_ID =
+    //  console.warn(collection);
 
-  const [formState, dispatchFormState] = useReducer(formReducer, {
-    inputValues: {
-      email: "",
-      password: ""
-    },
-    inputValidities: {
-      email: false,
-      password: false
-    },
-    formIsValid: false
-  });
-
-  const signupHandler = () => {
-    dispatch(
-      authActions.signup(
-        formState.inputValues.email,
-        formState.inputValues.password
-      )
-    );
-  };
-
-  const inputChangeHandler = useCallback(
-    (inputIdentifier, inputValue, inputValidity) => {
-      dispatchFormState({
-        type: FORM_INPUT_UPDATE,
-        value: inputValue,
-        isValid: inputValidity,
-        input: inputIdentifier
+    var url = "http://192.168.1.3:8000/api/users";
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(collection)
       });
-    },
-    [dispatchFormState]
-  );
+      const response = await res.json();
 
-  return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      keyboardVerticalOffset={50}
-      style={styles.screen}
-    >
-      <LinearGradient colors={["#ffedff", "#ffe3ff"]} style={styles.gradient}>
-        <Card style={styles.authContainer}>
-          <ScrollView>
-            <Input
-              id="email"
-              label="E-Mail"
-              keyboardType="email-address"
-              required
-              email
-              autoCapitalize="none"
-              errorText="Please enter a valid email address."
-              onInputChange={inputChangeHandler}
-              initialValue=""
-            />
-            <Input
-              id="password"
-              label="Password"
-              keyboardType="default"
-              secureTextEntry
-              required
-              minLength={5}
-              autoCapitalize="none"
-              errorText="Please enter a valid password."
-              onInputChange={inputChangeHandler}
-              initialValue=""
-            />
-            <View style={styles.buttonContainer}>
-              <Button
-                title="Login"
-                color={Colors.primary}
-                onPress={signupHandler}
-              />
-            </View>
-            <View style={styles.buttonContainer}>
-              <Button
-                title="Switch to Sign Up"
-                color={Colors.accent}
-                onPress={() => {}}
-              />
-            </View>
-          </ScrollView>
-        </Card>
-      </LinearGradient>
-    </KeyboardAvoidingView>
-  );
-};
+      //console.log("Success:", response);
+      this.setState({ user_id: response.id });
+    } catch (error) {
+      console.error("Error1:", error);
+    }
+    this.setState({
+      User_Firstname: "",
+      User_Lastname: "",
+      User_Email: "",
+      User_Password: "",
+      Confirm_Password: "",
+      User_Address: "",
+      User_Phone: "",
+      Role: ""
+      // Certification_ID: ""
+    });
 
-AuthScreen.navigationOptions = {
-  headerTitle: "Authenticate"
-};
+    console.log("ID", this.state.user_id);
+
+    var url = `http://192.168.1.3:8000/api/userCertification/${this.state.user_id}`;
+
+    try {
+      const res2 = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(this.state.selectedItems)
+      });
+      const response2 = await res2.json();
+
+      console.log("Response2:", response2);
+    } catch (error) {
+      console.error("Error2:", error);
+    }
+  };
+  componentDidMount() {
+    // this.setState({ isLoading: true });
+    // this.contacts();
+    // console.log("params", this.props.navigation.state.params);
+    const url = `http://192.168.1.5:8000/api/certification/`;
+    fetch(url)
+      .then(response => response.json())
+      .then(responseJson => {
+        // console.log("heeeeeeeeeeeeeeeeeeeeeeeere", responseJson.data);
+        //Successful response from the API Call
+        this.setState({
+          items: [...responseJson.data]
+
+          //adding the new data in Data Source of the SearchableDropdown
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+  onSelectedItemsChange = selectedItems => {
+    this.setState({ selectedItems });
+    // console.log(this.state.selectedItems);
+  };
+  render() {
+    const { navigate } = this.props.navigation;
+    const { selectedItems } = this.state;
+    //console.log(selectedItems);
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          <Input
+            placeholder="First Name"
+            onChangeText={text => this.updateValue(text, "User_Firstname")}
+            value={this.state.User_Firstname}
+          ></Input>
+          <Input
+            placeholder="Last Name"
+            onChangeText={text => this.updateValue(text, "User_Lastname")}
+          ></Input>
+          <View style={{ flex: 1 }}>
+            <MultiSelect
+              hideTags
+              items={this.state.items}
+              uniqueKey="Certification_ID"
+              ref={component => {
+                this.multiSelect = component;
+              }}
+              onSelectedItemsChange={this.onSelectedItemsChange}
+              selectedItems={selectedItems}
+              selectText="Pick Items"
+              searchInputPlaceholderText="Search Items..."
+              onChangeInput={text => console.log(text)}
+              tagRemoveIconColor="#CCC"
+              tagBorderColor="#CCC"
+              tagTextColor="#CCC"
+              selectedItemTextColor="#CCC"
+              selectedItemIconColor="#CCC"
+              itemTextColor="#000"
+              displayKey="Certification_Name"
+              searchInputStyle={{ color: "#CCC" }}
+              submitButtonColor="#CCC"
+              submitButtonText="Submit"
+            />
+            <View>
+              {this.multiSelect &&
+                this.multiSelect.getSelectedItemsExt(selectedItems)}
+            </View>
+          </View>
+          {/* <Certifications /> */}
+          <Input
+            placeholder="Email"
+            onChangeText={text => this.updateValue(text, "User_Email")}
+          ></Input>
+          <Input
+            placeholder="Password"
+            onChangeText={text => this.updateValue(text, "User_Password")}
+          ></Input>
+          <Input
+            placeholder="Confirm Password"
+            onChangeText={text => this.updateValue(text, "Confirm_Password")}
+          ></Input>
+          <Input
+            placeholder="Address"
+            onChangeText={text => this.updateValue(text, "User_Address")}
+          ></Input>
+          <Input
+            placeholder="Phone No."
+            onChangeText={text => this.updateValue(text, "User_Phone")}
+          ></Input>
+
+          <TouchableOpacity
+            onPress={() => {
+              this.submit();
+              this.props.navigation.navigate({ routeName: "selectlanguage" });
+            }}
+            style={styles.btn}
+          >
+            <Text>Submit</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1
-  },
-  gradient: {
+  container: {
+    backgroundColor: "#F5FCFF",
     flex: 1,
+    justifyContent: "center"
+  },
+  btn: {
+    backgroundColor: "skyblue",
+    height: 40,
+    color: "#fff",
     justifyContent: "center",
     alignItems: "center"
-  },
-  authContainer: {
-    width: "80%",
-    maxWidth: 400,
-    maxHeight: 400,
-    padding: 20
-  },
-  buttonContainer: {
-    marginTop: 10
   }
 });
-
-export default AuthScreen;
+export default AddNewUser;

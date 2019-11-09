@@ -11,22 +11,25 @@ const HomeScreen = props => {
           style={styles.image}
         />
       </View>
+
       <View style={styles.buttonContainer}>
         <View style={styles.button}>
           <MainButton
-            // onPress={() => {
-            //   props.navigation.navigate("Selection");
-            // }}
-            //
             onPress={() => {
-              props.navigation.navigate({ routeName: "addnewuser" });
+              props.navigation.navigate({ routeName: "selection" });
             }}
           >
             Sign Up
           </MainButton>
         </View>
         <View style={styles.button}>
-          <MainButton>Sign In</MainButton>
+          <MainButton
+            onPress={() => {
+              props.navigation.navigate({ routeName: "selection" });
+            }}
+          >
+            Sign In
+          </MainButton>
         </View>
       </View>
     </View>

@@ -46,9 +46,10 @@ router.get("/:id", (req, res, next) => {
 /**Create New User_Certification
  *
  */
-router.post("/", (req, res, next) => {
+router.post("/:User_ID", (req, res, next) => {
+  console.log("here");
   var errors = [];
-  if (!req.body.User_ID) {
+  /* if (!req.body.User_ID) {
     errors.push("No User_ID specified");
   }
   if (!req.body.Certification_ID) {
@@ -57,12 +58,26 @@ router.post("/", (req, res, next) => {
   if (errors.length) {
     res.status(400).json({ error: errors.join(",") });
     return;
-  }
+  } */
   var data = {
-    User_ID: req.body.User_ID,
-    Certification_ID: req.body.Certification_ID
+    User_ID: req.params.User_ID,
+    Certification_ID: req.body
   };
-  var sql =
+  console.log(data);
+  try {
+    data.Certification_ID.map(async item => {
+      var sql =
+        "INSERT INTO User_Certification (User_ID, Certification_ID) VALUES (?,?)";
+      var params = [data.User_ID, item];
+      await db.run(sql, params, function(err, result) {
+        if (err) {
+          console.log(err);
+          //res.status(400).json({ error: err.message });
+          return;
+        }
+      });
+    });
+    /* var sql =
     "INSERT INTO User_Certification (User_ID, Certification_ID) VALUES (?,?)";
   var params = [data.User_ID, data.Certification_ID];
 
@@ -70,13 +85,13 @@ router.post("/", (req, res, next) => {
     if (err) {
       res.status(400).json({ error: err.message });
       return;
-    }
+    }*/
     res.json({
-      message: "success",
-      data: data,
-      id: this.lastID
+      message: "success"
     });
-  });
+  } catch (err) {
+    res.status(400).json({ error: err });
+  }
 });
 
 /** Update a User_Certification by id
