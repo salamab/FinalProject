@@ -8,7 +8,9 @@ import { createAppContainer } from "react-navigation";
 const AppContainer = createAppContainer(ScreenNavigator);
 
 export default function App() {
+
   return <AppContainer />;
+
   // <View style={styles.screen}>
   //   <Header title="The best way to find a qualified teacher" />
   // <HomeScreen />

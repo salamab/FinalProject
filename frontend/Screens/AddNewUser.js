@@ -15,6 +15,8 @@ import MultiSelect from "react-native-multiple-select";
 
 // import Certifications from "./Certifications";
 
+import { BACKEND_URL } from 'react-native-dotenv'
+
 class AddNewUser extends Component {
   constructor(props) {
     super(props);
@@ -63,8 +65,8 @@ class AddNewUser extends Component {
     collection.Role = this.props.navigation.getParam("role", "Teacher");
     // collection.Certification_ID =
     //  console.warn(collection);
-
-    var url = "http://192.168.1.3:8000/api/users";
+    
+    var url = `${BACKEND_URL}/api/users`;
     try {
       const res = await fetch(url, {
         method: "POST",
@@ -95,7 +97,7 @@ class AddNewUser extends Component {
 
     console.log("ID", this.state.user_id);
 
-    var url = `http://192.168.1.3:8000/api/userCertification/${this.state.user_id}`;
+    var url = `${BACKEND_URL}/api/userCertification/${this.state.user_id}`;
 
     try {
       const res2 = await fetch(url, {
@@ -117,7 +119,7 @@ class AddNewUser extends Component {
     // this.setState({ isLoading: true });
     // this.contacts();
     // console.log("params", this.props.navigation.state.params);
-    const url = `http://192.168.1.5:8000/api/certification/`;
+    const url = `${BACKEND_URL}/api/certification/`;
     fetch(url)
       .then(response => response.json())
       .then(responseJson => {

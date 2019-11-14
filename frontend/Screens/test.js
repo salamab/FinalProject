@@ -39,7 +39,7 @@ export default class test extends React.Component {
     formData.append("User_Address", this.state.User_Address);
     formData.append("User_Phone", this.state.User_Phone);
     console.log(formData);
-    const response = await fetch("http://localhost:8000/api/users", {
+    const response = await fetch("${BACKEND_URL}/api/users", {
       method: "POST",
       headers: {
         "Content-Type": "multipart/form-data"

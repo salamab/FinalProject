@@ -232,6 +232,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import SearchableFlatlist from "searchable-flatlist";
+import { BACKEND_URL } from 'react-native-dotenv';
 
 // const data = [
 //   { id: 1, name: "Francesco Raoux" },
@@ -244,7 +245,7 @@ import SearchableFlatlist from "searchable-flatlist";
 export default class SelectLanguage extends Component {
   state = { searchTerm: "", data: [] };
   componentDidMount() {
-    const url = "http://192.168.0.105:8000/api/languages";
+    const url = `${BACKEND_URL}/api/languages`;
     fetch(url)
       .then(response => response.json())
       .then(responseJson => {
@@ -279,7 +280,7 @@ export default class SelectLanguage extends Component {
             renderItem={({ item }) => (
               <Text
                 onPress={() =>
-                  navigate("selectteacher", {
+                  navigate("cardimage", {
                     Languages_ID: item.Languages_ID
                   })
                 }

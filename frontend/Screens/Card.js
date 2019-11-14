@@ -1,65 +1,67 @@
 import React, { Component } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { Card, ListItem, Button, Icon, Avatar } from "react-native-elements";
-/* 
-<Avatar
-  rounded
-  source={{
-    uri:
-      'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-  }}
-/> */
+
+import { BACKEND_URL } from 'react-native-dotenv'
+
 export default class Cardimage extends Component {
-  state = {
-    avatars: [
-      {
-        name: 'Samar', role: 'teacher', image:'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'
-      },
-      {
-        name: 'Salam', role: 'teacher', image:'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'
-      },
-      {
-        name: 'Shirak', role: 'student', image:'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'
-      }
-    ]
+  // state = {
+  //   avatars: [
+  //     {
+  //       name: 'Samar', role: 'teacher', image:'Samar.jpg'
+  //     },
+  //     {
+  //       name: 'Raed', role: 'teacher', image:'Raed.jpeg'
+  //     },
+  //     {
+  //       name: 'Salam', role: 'student', image:'Salam.jpg'
+  //     }
+  //   ]
+  // }
+  constructor(props) {
+    super(props);
+  this.state = {
+    
+    avatars: []
   }
-  render() {
+}
+componentDidMount = async () => {
+  const res = await fetch(`${BACKEND_URL}/api/languageCourse/coursebylanguage/2`);
+  const response = await res.json();
+  this.setState({
+    avatars: response.data
+  })
+  console.log(this.state.avatars,"hooooooon")
+}
+render() {
     return (
       <View>
-        {/* <View style={styles.containerstyle}>
-           
-              <Avatar
-                size="large"
-                rounded
-                // title="CR"
-                onPress={() => console.log("Works!")}
-                source={{
-                              uri:
-                                "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
-                            }}
-                            activeOpacity={0.7}
-                          />
-                </View>
-              <View>
-                <Text>Samar Fatayri</Text>
-              </View> */}
        {
-   this.state.avatars.map((avatar, i) => (
-      <ListItem
-        key={i}
-        leftAvatar={{ source: { uri: avatar.image } }}
-        title={avatar.name}
-        subtitle={avatar.role}
-        bottomDivider
-      />
-    ))
-  }
-        
-        
+        this.state.avatars.map((avatar, i) => {
+          console.log(avatar.User_Firstname);
+
+          const avatarImages = [
+            'Raed.jpeg',
+            'Salam.jpg',
+            'Samar.jpg'
+          ];
+          
+            return <ListItem
+              key={i}
+              leftAvatar={{ source: { uri: `${BACKEND_URL}/${avatarImages[i % avatarImages.length]}`} }}
+
+              title={avatar.User_Firstname}
+              subtitle={avatar.User_Lastname}
+              User_Firstname={avatar.User_Firstname}
+              User_Lastname={avatar.User_Lastname}
+              Hour_Price={avatar.Hour_Price}
+              Certification_Name={avatar.Certification_Name}
+
+              bottomDivider
+            />
+        })
+        }
           </View>
-
-
-
     );
   }
 }

@@ -10,14 +10,16 @@ import {
   Button
 } from "react-native";
 import { Contacts } from "expo";
+import { BACKEND_URL } from 'react-native-dotenv';
 
-export default class SelectTeacher extends React.Component {
+
+export default class languageCourse extends React.Component {
   static navigationOptions = {
     title: "This course covers the advanced topics in grammar...."
   };
 
   constructor(props) {
-    super(props);
+    super(props);fetch
     this.state = {
       isLoading: false,
       courses: []
@@ -45,7 +47,7 @@ export default class SelectTeacher extends React.Component {
     // this.setState({ isLoading: true });
     // this.contacts();
     // console.log("param/${this.props.navigation.state.params.s", this.props.navigation.state.params);
-    const url = `http://192.168.0.105:8000/api/languageCourse/coursebylanguage/${this.props.navigation.state.params.Languages_ID}`;
+    const url = `${BACKEND_URL}/api/languageCourse/coursebylanguage/${this.props.navigation.state.params.Languages_ID}`;
     fetch(url)
       .then(response => response.json())
       .then(responseJson => {

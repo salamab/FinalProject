@@ -152,6 +152,7 @@ import { View, Text } from "react-native";
 // import React, { Component } from 'react';
 // import { View } from 'react-native';
 import MultiSelect from "react-native-multiple-select";
+import { BACKEND_URL } from 'react-native-dotenv';
 
 export default class Certifications extends Component {
   constructor(props) {
@@ -165,7 +166,7 @@ export default class Certifications extends Component {
     // this.setState({ isLoading: true });
     // this.contacts();
     // console.log("params", this.props.navigation.state.params);
-    const url = `http://192.168.1.3:8000/api/certification/`;
+    const url = `${BACKEND_URL}/api/certification/`;
     fetch(url)
       .then(response => response.json())
       .then(responseJson => {

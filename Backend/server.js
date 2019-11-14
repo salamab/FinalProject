@@ -1,12 +1,13 @@
 // Create express app
 var express = require("express");
+var path = require('path')
 var app = express();
 var db = require("./database.js");
 // var md5 = require("md5")
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.use(express.static(path.join(__dirname, './public'))); // <-- location of public dir
 import UserRoutes from "./Controllers/User";
 import StudentRoutes from "./Controllers/Student";
 import LanguagesRoutes from "./Controllers/Languages";
@@ -32,6 +33,7 @@ app.use("/api/appointment", AppointmentRoutes);
 app.use("/api/languageCourse", LanguageCourseRoutes);
 app.use("/api/certification", CertificationRoutes);
 app.use("/api/userCertification", UserCertificationRoutes);
+
 app.use("/api/courseRating", CourseRatingRoutes);
 // Default response for any other request
 app.use(function(req, res) {
