@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  Button,
   StyleSheet,
   Text,
   Image,
@@ -12,6 +13,10 @@ import {
 import Input from "../components/Input";
 import MainButton from "../components/MainButton";
 import MultiSelect from "react-native-multiple-select";
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from "expo-permissions";
+
 
 // import Certifications from "./Certifications";
 
@@ -32,26 +37,30 @@ class AddNewUser extends Component {
       Certification_ID: "",
       selectedItems: [],
       items: [],
-      user_id: 0
+      user_id: 0,
+      avatar:''
     };
   }
 
   updateValue(text, field) {
-    if (field == "User_Firstname") {
-      this.setState({ User_Firstname: text });
-    } else if (field == "User_Lastname") {
-      this.setState({ User_Lastname: text });
-    } else if (field == "User_Email") {
-      this.setState({ User_Email: text });
-    } else if (field == "User_Password") {
-      this.setState({ User_Password: text });
-    } else if (field == "Confirm_Password") {
-      this.setState({ Confirm_Password: text });
-    } else if (field == "User_Address") {
-      this.setState({ User_Address: text });
-    } else if (field == "User_Phone") {
-      this.setState({ User_Phone: text });
-    }
+    this.setState({
+      [field]: text
+    })
+    // if (field == "User_Firstname") {
+    //   this.setState({ User_Firstname: text });
+    // } else if (field == "User_Lastname") {
+    //   this.setState({ User_Lastname: text });
+    // } else if (field == "User_Email") {
+    //   this.setState({ User_Email: text });
+    // } else if (field == "User_Password") {
+    //   this.setState({ User_Password: text });
+    // } else if (field == "Confirm_Password") {
+    //   this.setState({ Confirm_Password: text });
+    // } else if (field == "User_Address") {
+    //   this.setState({ User_Address: text });
+    // } else if (field == "User_Phone") {
+    //   this.setState({ User_Phone: text });
+    // }
   }
   submit = async () => {
     let collection = {};
@@ -116,6 +125,8 @@ class AddNewUser extends Component {
     }
   };
   componentDidMount() {
+    this.getPermissionAsync();
+    console.log('hi');
     // this.setState({ isLoading: true });
     // this.contacts();
     // console.log("params", this.props.navigation.state.params);
@@ -139,9 +150,35 @@ class AddNewUser extends Component {
     this.setState({ selectedItems });
     // console.log(this.state.selectedItems);
   };
+  
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }
+  }
+
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+  };
+
   render() {
     const { navigate } = this.props.navigation;
     const { selectedItems } = this.state;
+    let { image } = this.state;
     //console.log(selectedItems);
     return (
       <ScrollView>
@@ -183,6 +220,16 @@ class AddNewUser extends Component {
               {this.multiSelect &&
                 this.multiSelect.getSelectedItemsExt(selectedItems)}
             </View>
+
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Button
+          title="Pick an image from camera roll"
+          onPress={this._pickImage}
+        />
+        {image &&
+          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+      </View>
+
           </View>
           {/* <Certifications /> */}
           <Input

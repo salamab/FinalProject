@@ -6,10 +6,7 @@ const HomeScreen = props => {
   return (
     <View style={styles.screen}>
       <View style={styles.imageContainer}>
-        {/* <Image
-          source={require("../assets/splashImage.jpg")}
-          style={styles.image}
-        /> */}
+        
       </View>
 
       <View style={styles.buttonContainer}>
