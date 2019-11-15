@@ -63,15 +63,47 @@ class AddNewUser extends Component {
     // }
   }
   submit = async () => {
-    let collection = {};
-    collection.User_Firstname = this.state.User_Firstname;
-    collection.User_Lastname = this.state.User_Lastname;
-    collection.User_Email = this.state.User_Email;
-    collection.User_Password = this.state.User_Password;
-    collection.Confirm_Password = this.state.Confirm_Password;
-    collection.User_Address = this.state.User_Address;
-    collection.User_Phone = this.state.User_Phone;
-    collection.Role = this.props.navigation.getParam("role", "Teacher");
+    let formData = new FormData();
+    const uri = this.state.avatar.uri;
+    const uriParts = uri.split(".");
+    const fileName = uriParts[uriParts.length - 1];
+    formData.append("avatar", {
+      name: `photo.${fileName}`,
+      type: `image/${fileName}`,
+      uri:
+        Platform.OS === "android"
+          ? this.state.avatar.uri
+          : this.state.avatar.uri.replace("file://", "")
+    });
+    formData.append("User_Firstname", this.state.User_Firstname);
+    formData.append("User_Lastname", this.state.User_Lastname);
+    formData.append("User_Email", this.state.User_Email);
+    formData.append("User_Password", this.state.User_Password);
+    formData.append("Confirm_Password", this.state.Confirm_Password);
+    formData.append("User_Address", this.state.User_Address);
+    formData.append("User_Phone", this.state.User_Phone);
+    formData.append("Role", this.props.navigation.getParam("role", "Teacher"));
+
+        // collection.Role = this.props.navigation.getParam("role", "Teacher");
+
+
+
+
+
+
+    // let collection = {};
+    // collection.User_Firstname = this.state.User_Firstname;
+    // collection.User_Lastname = this.state.User_Lastname;
+    // collection.User_Email = this.state.User_Email;
+    // collection.User_Password = this.state.User_Password;
+    // collection.Confirm_Password = this.state.Confirm_Password;
+    // collection.User_Address = this.state.User_Address;
+    // collection.User_Phone = this.state.User_Phone;
+    // collection.Role = this.props.navigation.getParam("role", "Teacher");
+
+
+
+    // ..............................................
     // collection.Certification_ID =
     //  console.warn(collection);
     
@@ -83,7 +115,7 @@ class AddNewUser extends Component {
           Accept: "application/json",
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(collection)
+        body: JSON.stringify(formData)
       });
       const response = await res.json();
 
