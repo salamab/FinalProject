@@ -1,12 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
 import { View, StyleSheet, Button } from "react-native";
 import MainButton from "../components/MainButton";
 
-const Selection = props => {
+  const Selection = props => {
   console.log(props);
   return (
     <View style={styles.buttonContainer}>
-      <View>
+      
         <View style={styles.button}>
           <MainButton
             onPress={() => {
@@ -26,19 +26,15 @@ const Selection = props => {
           </MainButton>
         </View>
       </View>
-    </View>
   );
 };
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1
-  // },
-
   buttonContainer: {
-    width: "70%",
-    margin: 30,
-    alignItems: "center"
-    // paddingLeft: 20
+  flex: 1
+  },
+  button:{
+    backgroundColor: '#460BAC'
   }
+
 });
 export default Selection;

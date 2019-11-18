@@ -1,6 +1,5 @@
 // /*This is an Example of Searchable Dropdown*/
 import React, { Component } from "react";
-// //import react in our project
 import { View, Text } from "react-native";
 // //import basic react native components
 // import SearchableDropdown from "react-native-searchable-dropdown";
@@ -129,7 +128,7 @@ import { View, Text } from "react-native";
 //             color: "#222"
 //           }}
 //           itemsContainerStyle={{
-//             //items container style you can pass maxHeight
+//             //items container style yo// //import react in our projectu can pass maxHeight
 //             //to restrict the items dropdown hieght
 //             maxHeight: "50%"
 //           }}

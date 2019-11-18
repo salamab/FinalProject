@@ -12,18 +12,18 @@ const MainButton = props => {
 };
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#d5a8d2",
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 18,
-    width: 200
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#fff',
+    width: 300,
+    height: 50,
+    marginVertical: 5
   },
   buttonText: {
     color: "white",
-    // fontFamily: "open-sans",
     fontSize: 18,
-    textAlign: "left"
+    textAlign: 'center',
+    padding: 10
   }
 });
-
 export default MainButton;

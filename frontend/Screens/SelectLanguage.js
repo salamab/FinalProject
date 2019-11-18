@@ -233,17 +233,12 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import SearchableFlatlist from "searchable-flatlist";
 import { BACKEND_URL } from 'react-native-dotenv';
-
-// const data = [
-//   { id: 1, name: "Francesco Raoux" },
-//   { id: 2, name: "Tasha Bonanno" },
-//   { id: 3, name: "Merle Braunstein" },
-//   { id: 4, name: "Aleda Bouzan" },
-//   { id: 5, name: "Issiah Elnaugh" }
-// ];
-
 export default class SelectLanguage extends Component {
+
+
   state = { searchTerm: "", data: [] };
+
+  
   componentDidMount() {
     const url = `${BACKEND_URL}/api/languages`;
     fetch(url)

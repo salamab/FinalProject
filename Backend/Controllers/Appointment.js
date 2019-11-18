@@ -45,18 +45,22 @@ router.get("/:id", (req, res, next) => {
  *
  */
 router.post("/", (req, res, next) => {
+  console.log("i am here", req.body)
   var errors = [];
   if (!req.body.Appointment_Date) {
-    errors.push("No password specified");
-  }
-  if (!req.body.Status) {
-    errors.push("No password specified");
+    errors.push("No Appointment_Date specified");
   }
   if (!req.body.Student_ID) {
-    errors.push("No password specified");
+    errors.push("No Student_ID specified");
   }
   if (!req.body.Language_Course_ID) {
-    errors.push("No password specified");
+    errors.push("No Language_Course_ID specified");
+  }
+  if (!req.body.startTime) {
+    errors.push("No startTime specified");
+  }
+  if (!req.body.endTime) {
+    errors.push("No endTime specified");
   }
   if (errors.length) {
     res.status(400).json({ error: errors.join(",") });
@@ -64,18 +68,20 @@ router.post("/", (req, res, next) => {
   }
   var data = {
     Appointment_Date: req.body.Appointment_Date,
-    Status: req.body.Status,
     Student_ID: req.body.Student_ID,
-    Language_Course_ID: req.body.Language_Course_ID
+    Language_Course_ID: req.body.Language_Course_ID,
+    startTime: req.body.startTime,
+    endTime: req.body.endTime
   };
   console.log(data);
   var sql =
-    "INSERT INTO Appointment (Appointment_Date, Status, Student_ID, Language_Course_ID) VALUES (?,?,?,?)";
+    "INSERT INTO Appointment (Appointment_Date, Student_ID, Language_Course_ID,startTime, endTime) VALUES (?,?,?,?,?)";
   var params = [
     data.Appointment_Date,
-    data.Status,
     data.Student_ID,
-    data.Language_Course_ID
+    data.Language_Course_ID,
+    data.startTime,
+    data.endTime
   ];
   db.run(sql, params, function(err, result) {
     if (err) {

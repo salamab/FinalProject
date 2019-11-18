@@ -1,33 +1,33 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, Button } from "react-native";
+import { View, Text, StyleSheet, Image, Button, StatusBar } from "react-native";
 import MainButton from "../components/MainButton";
-
+import { SafeAreaView } from 'react-navigation';
+SafeAreaView.setStatusBarHeight(0);
 const HomeScreen = props => {
   return (
+    
     <View style={styles.screen}>
-      <View style={styles.imageContainer}>
+        <View>
+    <Text style={{fontStyle: 'italic', color: 'white', fontWeight: 'bold', fontSize:  }}>
+    My Teacher
+      </Text>
+    </View>
+      <View style={styles.Container}>
+          <MainButton
+            onPress={() => {
+              props.navigation.navigate({ routeName: "selection" });
+            }}
+          >
+        <Text> Register </Text>
+          </MainButton>
         
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <View style={styles.button}>
-          <MainButton
+        <MainButton
             onPress={() => {
               props.navigation.navigate({ routeName: "selection" });
             }}
           >
-            Sign Up
+        <Text>Login</Text>
           </MainButton>
-        </View>
-        <View style={styles.button}>
-          <MainButton
-            onPress={() => {
-              props.navigation.navigate({ routeName: "selection" });
-            }}
-          >
-            Sign In
-          </MainButton>
-        </View>
       </View>
     </View>
   );
@@ -35,28 +35,15 @@ const HomeScreen = props => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    padding: 10,
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: '#460BAC'
   },
-  title: {
-    fontSize: 20,
-    marginVertical: 10
-  },
-  imageContainer: {
-    width: "100%",
-    height: 300
-  },
-  image: {
-    width: "100%",
-    height: "100%"
-  },
-  buttonContainer: {
+  Container: {
+  flexGrow: 1,
     flexDirection: "column",
-    width: "80%",
-    padding: 20
-  },
-  button: {
-    padding: 10
+    justifyContent: 'center',
+    paddingTop: 300,
+    alignItems: 'center'
   }
 });
 export default HomeScreen;

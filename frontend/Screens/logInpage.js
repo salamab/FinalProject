@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 
-const logInpage = props => {
+export const authenticateUser = controller => async (req,res,next)=>{
+
   return (
     <View style={styles.screen}>
       <View style={styles.buttonContainer}>
@@ -23,9 +24,9 @@ const logInpage = props => {
 
       <View>
         <Button
-          title="Next"
+          title="Login"
           onPress={() => {
-            props.navigation.navigate({});
+            props.navigation.navigate({ routeName: "selectlanguage" });
           }}
         />
       </View>

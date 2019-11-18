@@ -16,10 +16,6 @@ import MultiSelect from "react-native-multiple-select";
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from "expo-permissions";
-
-
-// import Certifications from "./Certifications";
-
 import { BACKEND_URL } from 'react-native-dotenv'
 
 class AddNewUser extends Component {
@@ -46,21 +42,6 @@ class AddNewUser extends Component {
     this.setState({
       [field]: text
     })
-    // if (field == "User_Firstname") {
-    //   this.setState({ User_Firstname: text });
-    // } else if (field == "User_Lastname") {
-    //   this.setState({ User_Lastname: text });
-    // } else if (field == "User_Email") {
-    //   this.setState({ User_Email: text });
-    // } else if (field == "User_Password") {
-    //   this.setState({ User_Password: text });
-    // } else if (field == "Confirm_Password") {
-    //   this.setState({ Confirm_Password: text });
-    // } else if (field == "User_Address") {
-    //   this.setState({ User_Address: text });
-    // } else if (field == "User_Phone") {
-    //   this.setState({ User_Phone: text });
-    // }
   }
   submit = async () => {
     let formData = new FormData();
@@ -84,38 +65,16 @@ class AddNewUser extends Component {
     formData.append("User_Phone", this.state.User_Phone);
     formData.append("Role", this.props.navigation.getParam("role", "Teacher"));
 
-        // collection.Role = this.props.navigation.getParam("role", "Teacher");
-
-
-
-
-
-
-    // let collection = {};
-    // collection.User_Firstname = this.state.User_Firstname;
-    // collection.User_Lastname = this.state.User_Lastname;
-    // collection.User_Email = this.state.User_Email;
-    // collection.User_Password = this.state.User_Password;
-    // collection.Confirm_Password = this.state.Confirm_Password;
-    // collection.User_Address = this.state.User_Address;
-    // collection.User_Phone = this.state.User_Phone;
-    // collection.Role = this.props.navigation.getParam("role", "Teacher");
-
-
-
-    // ..............................................
-    // collection.Certification_ID =
-    //  console.warn(collection);
     
     var url = `${BACKEND_URL}/api/users`;
     try {
       const res = await fetch(url, {
         method: "POST",
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
+          
+          "Content-Type": "multipart/form-data"
         },
-        body: JSON.stringify(formData)
+        body: formData
       });
       const response = await res.json();
 
@@ -213,7 +172,7 @@ class AddNewUser extends Component {
     let { image } = this.state;
     //console.log(selectedItems);
     return (
-      <ScrollView>
+      <ScrollView keyboardDismissMode="interactive">
         <View style={styles.container}>
           <Input
             placeholder="First Name"
@@ -253,14 +212,7 @@ class AddNewUser extends Component {
                 this.multiSelect.getSelectedItemsExt(selectedItems)}
             </View>
 
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-          title="Pick an image from camera roll"
-          onPress={this._pickImage}
-        />
-        {image &&
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-      </View>
+            
 
           </View>
           {/* <Certifications /> */}
@@ -285,15 +237,26 @@ class AddNewUser extends Component {
             onChangeText={text => this.updateValue(text, "User_Phone")}
           ></Input>
 
-          <TouchableOpacity
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                  <MainButton style={styles.btn}
+                    // title="Pick an image from camera roll"
+                    onPress={this._pickImage}
+                  >Pick an image from camera roll</MainButton>
+                  {image &&
+                    <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                
+          
+          <MainButton  style={styles.btn}
             onPress={() => {
               this.submit();
               this.props.navigation.navigate({ routeName: "selectlanguage" });
             }}
-            style={styles.btn}
+           
           >
             <Text>Submit</Text>
-          </TouchableOpacity>
+            </MainButton>
+            </View>
+          
         </View>
       </ScrollView>
     );
@@ -302,12 +265,12 @@ class AddNewUser extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#F5FCFF",
+    backgroundColor: 'blue',
     flex: 1,
     justifyContent: "center"
   },
   btn: {
-    backgroundColor: "skyblue",
+    backgroundColor: "#460BAC",
     height: 40,
     color: "#fff",
     justifyContent: "center",

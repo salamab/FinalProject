@@ -10,6 +10,7 @@ import {
   Button
 } from "react-native";
 import { Contacts } from "expo";
+import Card from "./Card";
 import { BACKEND_URL } from 'react-native-dotenv';
 
 
@@ -19,7 +20,7 @@ export default class languageCourse extends React.Component {
   };
 
   constructor(props) {
-    super(props);fetch
+    super(props);
     this.state = {
       isLoading: false,
       courses: []
@@ -66,7 +67,7 @@ export default class languageCourse extends React.Component {
 
   renderItem = ({ item }) => (
     <View style={{ minHeight: 70, padding: 5 }}>
-      <Text style={{ color: "#bada55", fontWeight: "bold", fontSize: 26 }}>
+      {/* <Text style={{ color: "#bada55", fontWeight: "bold", fontSize: 26 }}>
         {item.User_Firstname + " "}
         {item.User_Lastname}
       </Text>
@@ -77,8 +78,11 @@ export default class languageCourse extends React.Component {
       </Text>
       <Text style={{ color: "white", fontWeight: "bold" }}>
         {item.Hour_Price}
-      </Text>
+      </Text> */}
+      < Card />
     </View>
+
+    
   );
 
   searchContacts = value => {
