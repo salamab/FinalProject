@@ -62,7 +62,6 @@ router.get("/coursebylanguage/:id", (req, res, next) => {
       var stmt = `select Certification.* from Certification join User_Certification where User_Certification.User_ID = ${rows[index].User_ID} and Certification.Certification_ID= User_Certification.Certification_ID;`;
       db.all(stmt, params, (err, rows2) => {
         const r = rows[rows_index];
-
         r.certifications = [...rows2];
         console.log(r.User_ID, r.certifications);
         _newrows.push(r);
@@ -75,20 +74,6 @@ router.get("/coursebylanguage/:id", (req, res, next) => {
         }
       });
     }
-
-    // //console.log(rows);
-    // const newrows = rows.map(r => {
-    //   var stmt = `select Certification.* from Certification join User_Certification where User_Certification.User_ID = ${r.User_ID} and Certification.Certification_ID= User_Certification.Certification_ID;`;
-
-    //   db.all(stmt, params, (err, rows2) => {
-    //     r.certifications = [...rows2];
-    //     console.log(r.User_ID, r.certifications);
-    //     return r;
-    //   });
-
-    //   return r;
-    // });
-    // console.log(newrows);
   });
 });
 

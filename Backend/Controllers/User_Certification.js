@@ -49,16 +49,6 @@ router.get("/:id", (req, res, next) => {
 router.post("/:User_ID", (req, res, next) => {
   console.log("here");
   var errors = [];
-  /* if (!req.body.User_ID) {
-    errors.push("No User_ID specified");
-  }
-  if (!req.body.Certification_ID) {
-    errors.push("No Certification_ID specified");
-  }
-  if (errors.length) {
-    res.status(400).json({ error: errors.join(",") });
-    return;
-  } */
   var data = {
     User_ID: req.params.User_ID,
     Certification_ID: req.body
@@ -72,20 +62,10 @@ router.post("/:User_ID", (req, res, next) => {
       await db.run(sql, params, function(err, result) {
         if (err) {
           console.log(err);
-          //res.status(400).json({ error: err.message });
           return;
         }
       });
     });
-    /* var sql =
-    "INSERT INTO User_Certification (User_ID, Certification_ID) VALUES (?,?)";
-  var params = [data.User_ID, data.Certification_ID];
-
-  db.run(sql, params, function(err, result) {
-    if (err) {
-      res.status(400).json({ error: err.message });
-      return;
-    }*/
     res.json({
       message: "success"
     });

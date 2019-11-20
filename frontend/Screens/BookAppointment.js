@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, View, Button } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-// import MainButton from '../components/MainButton';
+// import MainButton from '../components/MainBidutton';
 import { BACKEND_URL } from 'react-native-dotenv'
 
 
@@ -12,9 +12,16 @@ export default class BookAppointment extends Component {
     ShowstartTime:false,
     ShowendTime:false,
     startTime:new Date(),
-    endTime:new Date()
+    endTime:new Date(),
+    user_id:this.props.navigation.getParam("user_id"),
+    language_course_id:this.props.navigation.getParam("Language_Course_ID"), id:null
   };
 
+  componentDidMount(){
+    const user_id= this.props.navigation.getParam("user_id");
+    const language_course_id = this.props.navigation.getParam("Language_Course_ID")
+    console.log("book", language_course_id, user_id)
+  }
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
 
@@ -41,19 +48,20 @@ _handleEndTime = data =>{
     'Accept': 'appstartTimelication/json',
    'Content-Type': 'application/json' },
   // body: JSON.stringify({text: "blablabla", id_product: "12"})
-  body: JSON.stringify({date: this.state.date, startTime: this.state.startTime, endTime:this.state.endTime})
-}).then((response) => 
+  body: JSON.stringify({date: this.state.date, startTime: this.state.startTime, endTime:this.state.endTime, user_id: this.state.user_id, language_course_id: this.state.language_course_id})
+})
+.then((response) => 
 response.json())
 .then(responseJson => {
   console.log("heeeeeeeeeeeeeeeeeeeeeeeere", responseJson.data);
   //Successful response from the API Call
-  this.setState({...responseJson.data
+  this.setState({id:responseJson.id
   });
-          console.log("here", responseJson.data);
+ console.log("here", responseJson.id);
 
 })
 // .then((responseData) => { console.log("response: " + responseData); })
-.catch((err) => { console.log(err); });
+.catch((err) => { console.log(err) });
 }
 
   render () {

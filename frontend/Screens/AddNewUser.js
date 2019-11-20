@@ -180,7 +180,7 @@ class AddNewUser extends Component {
             value={this.state.User_Firstname}
           ></Input>
           <Input
-            placeholder="Last Name"
+            placeholder="Last Name" style={{marginBottom: 10}}
             onChangeText={text => this.updateValue(text, "User_Lastname")}
           ></Input>
           <View style={{ flex: 1 }}>
@@ -193,7 +193,7 @@ class AddNewUser extends Component {
               }}
               onSelectedItemsChange={this.onSelectedItemsChange}
               selectedItems={selectedItems}
-              selectText="Pick Items"
+              selectText="Certifications"
               searchInputPlaceholderText="Search Items..."
               onChangeInput={text => console.log(text)}
               tagRemoveIconColor="#CCC"
@@ -265,9 +265,10 @@ class AddNewUser extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'blue',
+    backgroundColor: '#4B44AD',
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: 200
   },
   btn: {
     backgroundColor: "#460BAC",

@@ -12,7 +12,7 @@ const MainButton = props => {
 };
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 10,
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: '#fff',
     width: 300,

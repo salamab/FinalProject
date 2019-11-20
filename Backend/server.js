@@ -16,6 +16,7 @@ import LanguageCourseRoutes from "./Controllers/Language_Course";
 import CertificationRoutes from "./Controllers/Certification";
 import UserCertificationRoutes from "./Controllers/User_Certification";
 import CourseRatingRoutes from "./Controllers/Course_Rating";
+import LoginRoutes from "./Controllers/authentication"
 // Server port
 var HTTP_PORT = 8000;
 // Start server
@@ -33,7 +34,7 @@ app.use("/api/appointment", AppointmentRoutes);
 app.use("/api/languageCourse", LanguageCourseRoutes);
 app.use("/api/certification", CertificationRoutes);
 app.use("/api/userCertification", UserCertificationRoutes);
-
+app.use("/api/login", LoginRoutes);
 app.use("/api/courseRating", CourseRatingRoutes);
 // Default response for any other request
 app.use(function(req, res) {

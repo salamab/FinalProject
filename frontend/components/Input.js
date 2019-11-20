@@ -7,13 +7,13 @@ const Input = props => {
 
 const styles = StyleSheet.create({
   input: {
-    width: 200,
+    // width: 300,
     height: 50,
-    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderRadius: 20,
     borderColor: "purple",
-    marginVertical: 10,
-    width: "100%",
-    textAlign: "center"
+    // marginVertical: 10,
+    textAlign: "left"
   }
 });
 

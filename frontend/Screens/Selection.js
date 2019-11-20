@@ -8,16 +8,16 @@ import MainButton from "../components/MainButton";
     <View style={styles.buttonContainer}>
       
         <View style={styles.button}>
-          <MainButton
+          <MainButton 
             onPress={() => {
               props.navigation.navigate("addnewuser", { role: "Student" });
             }}
           >
             I am here to learn
           </MainButton>
-        </View>
-        <View style={styles.button}>
-          <MainButton
+        {/* </View>
+        <View style={styles.button}> */}
+          <MainButton 
             onPress={() => {
               props.navigation.navigate("addnewuser", { role: "Teacher" });
             }}
@@ -30,10 +30,23 @@ import MainButton from "../components/MainButton";
 };
 const styles = StyleSheet.create({
   buttonContainer: {
-  flex: 1
+  flex: 1,
+  // justifyContent: 'center',
+  // width: '100%'
+  marginTop:300,
+    // alignItems: "center",
+    backgroundColor: '#4B44AD'
   },
   button:{
-    backgroundColor: '#460BAC'
+  
+    borderColor: 'blue',
+    flexGrow: 1,
+    flexDirection: "column",
+    justifyContent: 'center',
+    // marginTop: 200,
+    // paddingTop: 300,
+    alignItems: 'center'
+  
   }
 
 });
